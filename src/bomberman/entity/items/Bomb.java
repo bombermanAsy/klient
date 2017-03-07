@@ -5,14 +5,19 @@ import java.awt.Graphics;
 import bomberman.Handler;
 import bomberman.gfx.Animation;
 import bomberman.gfx.Assets;
+import bomberman.entity.creatures.*;
 
 public class Bomb extends Item {
 
 	//ANIMATIONS
 	private Animation bombAnim;
+	private int lifeTime = 100;
+	private Creature whoPlantMe;
 	
-	public Bomb(Handler handler, float x, float y, int width, int height) {
+	public Bomb(Handler handler, float x, float y, int width, int height, Creature a) {
 		super(handler, x, y, width, height);
+		
+		whoPlantMe = a;
 		
 		collisionBox.x = 1;
 		collisionBox.y = 1;
@@ -22,10 +27,16 @@ public class Bomb extends Item {
 		//ANIMATIONS
 		bombAnim = new Animation(250, Assets.bomb);
 	}
+	
+	public Creature getWhoPlantMe() {
+		return whoPlantMe;
+	}
 
 	@Override
 	public void tick() {
 		bombAnim.tick();
+		lifeTime--;
+		if (lifeTime == 0) handler.explode(this);
 	}
 
 	@Override

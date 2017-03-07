@@ -3,6 +3,8 @@ package bomberman;
 import bomberman.input.KeyManager;
 import bomberman.input.MouseManager;
 import bomberman.worlds.World;
+import bomberman.entity.items.Bomb;
+import bomberman.entity.creatures.*;
 
 public class Handler {
 
@@ -44,5 +46,13 @@ public class Handler {
 
 	public void setWorld(World world) {
 		this.world = world;
+	}
+	
+	public void plantBomb(Creature a, float x, float y) {
+		this.world.plantBomb(a, x, y);
+	}
+	
+	public void explode(Bomb b) {
+		world.explode(b);
 	}
 }

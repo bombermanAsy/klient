@@ -13,7 +13,8 @@ public abstract class Creature extends Entity {
 
 	protected int health;
 	protected float speed;
-	protected float xMove, yMove;
+	protected float xMove, yMove;	
+	protected int numOfBombs;
 	
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
@@ -21,6 +22,11 @@ public abstract class Creature extends Entity {
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
+		numOfBombs = 1;
+	}
+	
+	public void addOne() {
+		numOfBombs++;
 	}
 
 	public void moveX() {

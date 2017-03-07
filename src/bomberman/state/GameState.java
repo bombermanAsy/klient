@@ -1,6 +1,7 @@
 package bomberman.state;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import bomberman.Handler;
 import bomberman.entity.items.Bomb;
@@ -12,7 +13,7 @@ public class GameState extends State {
 //	private Player2 player2;
 //	private Player3 player3;
 	
-	private Bomb bombTest;
+//	private ArrayList<Bomb> bombs;
 	
 	private World standardWorld;
 	//private Brick brick;
@@ -27,7 +28,10 @@ public class GameState extends State {
 		
 		//brick = new Brick(handler, 50, 100);
 		
-		bombTest = new Bomb(handler, 100, 50, 50, 50);
+		//bombTest = new Bomb(handler, 100, 50, 50, 50);
+	//	bombs = new ArrayList<Bomb>();
+	//	bombs.add(new Bomb(handler, 100, 50, 50, 50));
+		
 	}
 	
 	@Override
@@ -39,7 +43,9 @@ public class GameState extends State {
 		
 		//brick.tick();
 		
-		bombTest.tick();
+	//	for (Bomb x : bombs) {
+	//		x.tick();
+	//	}
 	}
 
 	@Override
@@ -52,7 +58,9 @@ public class GameState extends State {
 //		player3.render(g);
 		
 		//brick.render(g);
+	//	for (Bomb x : bombs) {
+	//		x.render(g);
+	//	}
 		
-		bombTest.render(g);
 	}
 }
