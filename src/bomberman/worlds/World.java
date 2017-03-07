@@ -2,11 +2,11 @@ package bomberman.worlds;
 
 import java.awt.Graphics;
 
+
 import bomberman.Handler;
 import bomberman.entity.EntityManager;
-import bomberman.entity.creatures.Player1;
-import bomberman.entity.creatures.Player2;
-import bomberman.entity.creatures.Player3;
+import bomberman.entity.creatures.*;
+import bomberman.entity.items.Bomb;
 import bomberman.tile.Tile;
 import bomberman.utils.Utils;
 
@@ -67,6 +67,15 @@ public class World {
 			return Tile.grassTile;
 		return t;
 	}
+	
+	public void plantBomb(Creature a, float x, float y) {
+		entityManager.addEntity(new Bomb(handler, x, y, 50, 50, a));
+	}
+	
+	public void explode(Bomb b) {
+		entityManager.removeBomb(b);
+	}
+	
 	
 	public void loadWorld(String path) {
 		

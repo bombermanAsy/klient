@@ -9,7 +9,8 @@ public class KeyManager implements KeyListener {
 	
 	public boolean up, down, left, right, 
 					WUp, SDown, ALeft, DRight, 
-					num8, num5, num4, num6;
+					num8, num5, num4, num6,
+					space;
 	
 	public KeyManager() {
 		keys = new boolean[256];
@@ -30,6 +31,8 @@ public class KeyManager implements KeyListener {
 		num5 = keys[KeyEvent.VK_NUMPAD5];
 		num4 = keys[KeyEvent.VK_NUMPAD4];
 		num6 = keys[KeyEvent.VK_NUMPAD6];
+		
+		space = keys[KeyEvent.VK_SPACE];
 	}
 	
 	@Override
@@ -44,7 +47,7 @@ public class KeyManager implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+	
 	}
 
 }

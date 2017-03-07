@@ -7,6 +7,7 @@ import bomberman.Handler;
 import bomberman.gfx.Animation;
 import bomberman.gfx.Assets;
 
+
 public class Player1 extends Creature {
 
 	//ANIMATIONS
@@ -22,7 +23,7 @@ public class Player1 extends Creature {
 		collisionBox.y = 24;
 		collisionBox.width = 17;
 		collisionBox.height = 19;
-		
+
 		//ANIMATIONS
 		animDown = new Animation(500, Assets.player1_down);
 		animUp = new Animation(500, Assets.player1_up);
@@ -58,7 +59,20 @@ public class Player1 extends Creature {
 		if(handler.getKeyManager().right) {
 			xMove = speed;
 		}
+		if(handler.getKeyManager().space) {
+			plantBomb();
+		}
+		
 	}
+	
+	private void plantBomb() {
+		if (numOfBombs > 0) {
+			handler.plantBomb(this, this.x, this.y);
+			numOfBombs--;
+		}
+	}
+	
+	
 
 	@Override
 	public void render(Graphics g) {

@@ -2,25 +2,28 @@ package bomberman.entity;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.lang.Math.*;
 
 import bomberman.Handler;
-import bomberman.entity.creatures.Player1;
-import bomberman.entity.creatures.Player2;
-import bomberman.entity.creatures.Player3;
+import bomberman.entity.creatures.*;
+import bomberman.entity.items.Bomb;
 
 public class EntityManager {
 
 	private Handler handler;
-	private Player1 player1;
-	private Player2 player2;
-	private Player3 player3;
+	//private Player1 player1;
+	//private Player2 player2;
+	//private Player3 player3;
+	private ArrayList<Creature> players;
 	private ArrayList<Entity> entities;
 	
 	public EntityManager(Handler handler, Player1 player1, Player2 player2, Player3 player3) {
 		this.handler = handler;
-		this.player1 = player1;
-		this.player2 = player2;
-		this.player3 = player3;
+		
+		players = new ArrayList<Creature>();
+		players.add(player1);
+		players.add(player2);
+		players.add(player3);
 		
 		entities = new ArrayList<Entity>();
 	}
@@ -30,22 +33,41 @@ public class EntityManager {
 			Entity e = entities.get(i);
 			e.tick();
 		}
-		player1.tick();
-		player2.tick();
-		player3.tick();
+		
+		for (Creature x : players) x.tick();
 	}
 	
 	public void render(Graphics g) {
 		for(Entity e : entities) {
 			e.render(g);
 		}
-		player1.render(g);
-		player2.render(g);
-		player3.render(g);
+		
+		for (Creature x : players) x.render(g);
 	}
 
 	public void addEntity(Entity e) {
 		entities.add(e);
+	}
+	
+	public void removeBomb(Bomb b) {
+		entities.remove(b);
+		ArrayList<Creature> deleteMe = new ArrayList<Creature>();
+		for (Creature x : players) {
+			if (Math.abs(x.getX() - b.getX()) < 50 &&
+					Math.abs(x.getY() - b.getY()) < 50) {
+				deleteMe.add(x);
+			}
+		}
+		for (Creature x : deleteMe) {
+			players.remove(x);
+		}
+		for (Creature x :players) {
+			if (x == b.getWhoPlantMe()) {
+				x.addOne();
+				break;
+			}
+		}
+		
 	}
 	
 	//GETTERS AND SETTERS
@@ -58,28 +80,28 @@ public class EntityManager {
 		this.handler = handler;
 	}
 
-	public Player1 getPlayer1() {
-		return player1;
+	public Creature getPlayer1() {
+		return players.get(0);
 	}
 
 	public void setPlayer1(Player1 player1) {
-		this.player1 = player1;
+		this.players.set(0, player1);
 	}
 
-	public Player2 getPlayer2() {
-		return player2;
+	public Creature getPlayer2() {
+		return players.get(1);
 	}
 
 	public void setPlayer2(Player2 player2) {
-		this.player2 = player2;
+		this.players.set(1, player2);
 	}
 
-	public Player3 getPlayer3() {
-		return player3;
+	public Creature getPlayer3() {
+		return players.get(2);
 	}
 
 	public void setPlayer3(Player3 player3) {
-		this.player3 = player3;
+		players.set(2, player3);
 	}
 
 	public ArrayList<Entity> getEntities() {
