@@ -6,5 +6,4 @@ public class Launcher {
 		Game game = new Game("Bomberman", 750, 650);
 		game.start();
 	}
-
 }
