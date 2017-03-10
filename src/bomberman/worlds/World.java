@@ -14,9 +14,8 @@ public class World {
 
 	protected Handler handler;
 	private int width, height;
-	private int p1_spawnX, p1_spawnY,
-				p2_spawnX, p2_spawnY,
-				p3_spawnX, p3_spawnY;
+	private int[] spawnX = new int[3],
+					spawnY = new int[3];
 	private int[][] tiles;
 	
 	//ENTITIES
@@ -25,21 +24,14 @@ public class World {
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		
-		entityManager = new EntityManager(handler,
-				new Player1(handler, 50, 50),
-				new Player2(handler, 650, 550),
-				new Player3(handler, 50, 550));
+		entityManager = new EntityManager(handler);
 		
 		loadWorld(path);
 		
-		entityManager.getPlayer1().setX(p1_spawnX);
-		entityManager.getPlayer1().setY(p1_spawnY);
-		
-		entityManager.getPlayer2().setX(p2_spawnX);
-		entityManager.getPlayer2().setY(p2_spawnY);
-		
-		entityManager.getPlayer3().setX(p3_spawnX);
-		entityManager.getPlayer3().setY(p3_spawnY);
+		for (int i=0; i<Player.numOfPlayers; i++) {
+			entityManager.getPlayer(i).setX(spawnX[i]);
+			entityManager.getPlayer(i).setY(spawnY[i]);
+		}		
 	}
 	
 	public void tick() {
@@ -68,7 +60,7 @@ public class World {
 		return t;
 	}
 	
-	public void plantBomb(Creature a, float x, float y) {
+	public void plantBomb(Player a, float x, float y) {
 		entityManager.addEntity(new Bomb(handler, x, y, 50, 50, a));
 	}
 	
@@ -83,12 +75,13 @@ public class World {
 		String[] tokens = file.split("\\s+");
 		width = Utils.parseInt(tokens[0]);
 		height = Utils.parseInt(tokens[1]);
-		p1_spawnX = Utils.parseInt(tokens[2]);
-		p1_spawnY = Utils.parseInt(tokens[3]);
-		p2_spawnX = Utils.parseInt(tokens[4]);
-		p2_spawnY = Utils.parseInt(tokens[5]);
-		p3_spawnX = Utils.parseInt(tokens[6]);
-		p3_spawnY = Utils.parseInt(tokens[7]);
+		
+		spawnX[0] = Utils.parseInt(tokens[2]);
+		spawnY[0] = Utils.parseInt(tokens[3]);
+		spawnX[1] = Utils.parseInt(tokens[4]);
+		spawnY[1] = Utils.parseInt(tokens[5]);
+		spawnX[2] = Utils.parseInt(tokens[6]);
+		spawnY[2] = Utils.parseInt(tokens[7]);
 		
 		tiles = new int[width][height];
 		

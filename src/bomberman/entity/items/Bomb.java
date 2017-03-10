@@ -12,9 +12,9 @@ public class Bomb extends Item {
 	//ANIMATIONS
 	private Animation bombAnim;
 	private int lifeTime = 100;
-	private Creature whoPlantMe;
+	private Player whoPlantMe;
 	
-	public Bomb(Handler handler, float x, float y, int width, int height, Creature a) {
+	public Bomb(Handler handler, float x, float y, int width, int height, Player a) {
 		super(handler, x, y, width, height);
 		
 		whoPlantMe = a;
@@ -28,7 +28,7 @@ public class Bomb extends Item {
 		bombAnim = new Animation(250, Assets.bomb);
 	}
 	
-	public Creature getWhoPlantMe() {
+	public Player getWhoPlantMe() {
 		return whoPlantMe;
 	}
 

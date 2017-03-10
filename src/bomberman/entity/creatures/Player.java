@@ -1,32 +1,146 @@
 package bomberman.entity.creatures;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 import bomberman.Handler;
 import bomberman.entity.Entity;
+import bomberman.gfx.Animation;
+import bomberman.gfx.Assets;
 import bomberman.tile.Tile;
 
-public abstract class Creature extends Entity {
+public class Player extends Entity {
 	
 	public static final int DEFAULT_HEALTH = 100;
 	public static final float DEFAULT_SPEED = 3.0f;
 	public static final int DEFAULT_CREATURE_WIDTH = 50;
 	public static final int DEFAULT_CREATURE_HEIGHT = 50;
+	
+	public static int numOfPlayers = 0;
+	public int playersNum;
 
 	protected int health;
 	protected float speed;
 	protected float xMove, yMove;	
 	protected int numOfBombs;
 	
-	public Creature(Handler handler, float x, float y, int width, int height) {
-		super(handler, x, y, width, height);
+	//ANIMATIONS
+	private Animation animDown;
+	private Animation animUp;
+	private Animation animLeft;
+	private Animation animRight;
+	
+	public Player(Handler handler, float x, float y) {
+		super(handler, x, y, DEFAULT_CREATURE_WIDTH, DEFAULT_CREATURE_HEIGHT);
 		health = DEFAULT_HEALTH;
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
 		numOfBombs = 1;
+		
+		collisionBox.x = 16;
+		collisionBox.y = 24;
+		collisionBox.width = 17;
+		collisionBox.height = 19;
+		
+		playersNum = numOfPlayers;
+		numOfPlayers++;
+		
+		//ANIMATIONS
+		switch(playersNum) {
+		case 0:
+			animDown = new Animation(500, Assets.player1_down);
+			animUp = new Animation(500, Assets.player1_up);
+			animLeft = new Animation(500, Assets.player1_left);
+			animRight = new Animation(500, Assets.player1_right);
+			break;
+		case 1:
+			animDown = new Animation(500, Assets.player2_down);
+			animUp = new Animation(500, Assets.player2_up);
+			animLeft = new Animation(500, Assets.player2_left);
+			animRight = new Animation(500, Assets.player2_right);
+			break;
+		case 2:
+			animDown = new Animation(500, Assets.player3_down);
+			animUp = new Animation(500, Assets.player3_up);
+			animLeft = new Animation(500, Assets.player3_left);
+			animRight = new Animation(500, Assets.player3_right);
+			break;			
+		}
 	}
+	
+	public int getNumber() {
+		return playersNum;
+	}
+	
+	@Override
+	public void tick() {
+		//ANIMATIONS
+		animDown.tick();
+		animUp.tick();
+		animLeft.tick();
+		animRight.tick();
+		//MOVEMENT	
+		getInput();
+		move();
+	}
+	
+	private void getInput() {
+		xMove = 0;
+		yMove = 0;
+		
+		if(handler.getKeyManager().up) {
+			yMove = -speed;
+		}
+		if(handler.getKeyManager().down) {
+			yMove = speed;
+		}
+		if(handler.getKeyManager().left) {
+			xMove = -speed;
+		}
+		if(handler.getKeyManager().right) {
+			xMove = speed;
+		}
+		if(handler.getKeyManager().space) {
+			plantBomb();
+		}
+		
+	}
+	
+	private void plantBomb() {
+		if (numOfBombs > 0) {
+			handler.plantBomb(this, this.x, this.y);
+			numOfBombs--;
+		}
+	}
+	
 	
 	public void addOne() {
 		numOfBombs++;
+	}
+	
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, width, height, null);
+	}
+	
+	private BufferedImage getCurrentAnimationFrame() {
+		if(xMove < 0) {
+			return animLeft.getCurrentFrame();
+		} else if(xMove > 0) {
+			return animRight.getCurrentFrame();
+		} else if(yMove < 0) {
+			return animUp.getCurrentFrame();
+		} else if(yMove > 0) {
+			return animDown.getCurrentFrame();
+		} else {
+			switch(playersNum) {
+				case 0: return Assets.player1_down[0];
+				case 1: return Assets.player2_down[0];
+				case 2: return Assets.player3_down[0];
+				default: return null;
+			}
+		}
 	}
 
 	public void moveX() {
