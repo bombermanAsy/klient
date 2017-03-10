@@ -1,5 +1,6 @@
 package bomberman.entity.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -23,7 +24,11 @@ public class Player1 extends Creature {
 		collisionBox.y = 24;
 		collisionBox.width = 17;
 		collisionBox.height = 19;
-
+/*		collisionBox.x = 1;
+		collisionBox.y = 1;
+		collisionBox.width = 48;
+		collisionBox.height = 48;*/
+		
 		//ANIMATIONS
 		animDown = new Animation(500, Assets.player1_down);
 		animUp = new Animation(500, Assets.player1_up);
@@ -77,9 +82,10 @@ public class Player1 extends Creature {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, width, height, null);
-
-		/*g.setColor(Color.red);
-		g.fillRect((int) (x + collisionBox.x), (int) (y + collisionBox.y), 
+		g.setColor(Color.red);
+//		g.fillRect((int) (x + collisionBox.x), (int) (y + collisionBox.y), 
+//				collisionBox.width, collisionBox.height);
+		/*g.fillOval((int) (x + collisionBox.x), (int) (y + collisionBox.y), 
 				collisionBox.width, collisionBox.height);*/
 	}
 	
