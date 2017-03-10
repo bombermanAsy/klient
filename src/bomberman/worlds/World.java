@@ -29,8 +29,8 @@ public class World {
 		loadWorld(path);
 		
 		for (int i=0; i<Player.numOfPlayers; i++) {
-			entityManager.getPlayer(i+1).setX(spawnX[i]);
-			entityManager.getPlayer(i+1).setY(spawnY[i]);
+			entityManager.getPlayer(i).setX(spawnX[i]);
+			entityManager.getPlayer(i).setY(spawnY[i]);
 		}		
 	}
 	

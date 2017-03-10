@@ -1,7 +1,12 @@
 package bomberman.entity.creatures;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 import bomberman.Handler;
 import bomberman.entity.Entity;
+import bomberman.gfx.Animation;
+import bomberman.gfx.Assets;
 import bomberman.tile.Tile;
 
 public class Player extends Entity {
@@ -43,19 +48,19 @@ public class Player extends Entity {
 		
 		//ANIMATIONS
 		switch(playersNum) {
-		case 1:
+		case 0:
 			animDown = new Animation(500, Assets.player1_down);
 			animUp = new Animation(500, Assets.player1_up);
 			animLeft = new Animation(500, Assets.player1_left);
 			animRight = new Animation(500, Assets.player1_right);
 			break;
-		case 2:
+		case 1:
 			animDown = new Animation(500, Assets.player2_down);
 			animUp = new Animation(500, Assets.player2_up);
 			animLeft = new Animation(500, Assets.player2_left);
 			animRight = new Animation(500, Assets.player2_right);
 			break;
-		case 3:
+		case 2:
 			animDown = new Animation(500, Assets.player3_down);
 			animUp = new Animation(500, Assets.player3_up);
 			animLeft = new Animation(500, Assets.player3_left);
@@ -65,7 +70,7 @@ public class Player extends Entity {
 	}
 	
 	public int getNumber() {
-		return playersNumber;
+		return playersNum;
 	}
 	
 	@Override
@@ -130,9 +135,10 @@ public class Player extends Entity {
 			return animDown.getCurrentFrame();
 		} else {
 			switch(playersNum) {
-				case 1: return Assets.player1_down[0];
-				case 2: return Assets.player2_down[0];
-				case 3: return Assets.player3_down[0];
+				case 0: return Assets.player1_down[0];
+				case 1: return Assets.player2_down[0];
+				case 2: return Assets.player3_down[0];
+				default: return null;
 			}
 		}
 	}
