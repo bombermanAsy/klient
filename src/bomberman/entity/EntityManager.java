@@ -2,8 +2,10 @@ package bomberman.entity;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import bomberman.Handler;
-import bomberman.entity.creatures.*;
+import bomberman.entity.creatures.Player;
 import bomberman.entity.items.Bomb;
 
 public class EntityManager {
@@ -47,16 +49,15 @@ public class EntityManager {
 	
 	public void removeBomb(Bomb b) {
 		entities.remove(b);
-		ArrayList<Player> deleteMe = new ArrayList<Player>();
-		for (Player x : players) {
+		Iterator<Player> it = players.iterator();
+		while (it.hasNext()) {
+			Player x = it.next();
 			if (Math.abs(x.getX() - b.getX()) < 50 &&
 					Math.abs(x.getY() - b.getY()) < 50) {
-				deleteMe.add(x);
+				it.remove();
 			}
 		}
-		for (Player x : deleteMe) {
-			players.remove(x);
-		}
+
 		for (Player x :players) {
 			if (x == b.getWhoPlantMe()) {
 				x.addOne();
