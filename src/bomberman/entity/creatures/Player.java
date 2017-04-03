@@ -24,6 +24,11 @@ public class Player extends Entity {
 	protected float xMove, yMove;	
 	protected int numOfBombs;
 	
+	private final static int PLANT_DELAY_TIME = 25;
+	
+	protected static int plantDelay = PLANT_DELAY_TIME;
+	protected static boolean canIPlant = true;
+	
 	//ANIMATIONS
 	private Animation animDown;
 	private Animation animUp;
@@ -36,7 +41,7 @@ public class Player extends Entity {
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
-		numOfBombs = 1;
+		numOfBombs = 5;
 		
 		collisionBox.x = 16;
 		collisionBox.y = 24;
@@ -80,6 +85,14 @@ public class Player extends Entity {
 		animUp.tick();
 		animLeft.tick();
 		animRight.tick();
+		
+		if (canIPlant == false) {
+			plantDelay--;
+			if (plantDelay == 0) {
+				canIPlant = true;
+				plantDelay = PLANT_DELAY_TIME;
+			}
+		}
 		//MOVEMENT	
 		getInput();
 		move();
@@ -108,9 +121,10 @@ public class Player extends Entity {
 	}
 	
 	private void plantBomb() {
-		if (numOfBombs > 0) {
+		if (numOfBombs > 0 && canIPlant == true) {
 			handler.plantBomb(this, this.x, this.y);
 			numOfBombs--;
+			canIPlant = false;
 		}
 	}
 	

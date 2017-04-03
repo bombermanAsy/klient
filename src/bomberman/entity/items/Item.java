@@ -20,7 +20,7 @@ public abstract class Item extends Entity {
 		yMove = 0;
 	}
 
-	public void moveX() {
+	/*public void moveX() {
 		//x += xMove;
 		
 		if(xMove > 0) { // moving right
@@ -71,7 +71,7 @@ public abstract class Item extends Entity {
 	public void move() {
 		moveX();
 		moveY();
-	}
+	}*/
 	
 	protected boolean collisionWithTiles(int x, int y) {
 		return handler.getWorld().getTile(x, y).isSolid();
