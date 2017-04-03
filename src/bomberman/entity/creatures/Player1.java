@@ -9,7 +9,7 @@ import bomberman.gfx.Animation;
 import bomberman.gfx.Assets;
 
 
-public class Player1 extends Creature {
+public class Player1 extends Player {
 
 	//ANIMATIONS
 	private Animation animDown;
@@ -18,7 +18,7 @@ public class Player1 extends Creature {
 	private Animation animRight;
 	
 	public Player1(Handler handler, float x, float y) {
-		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		super(handler, x, y);
 		
 		collisionBox.x = 16;
 		collisionBox.y = 24;
