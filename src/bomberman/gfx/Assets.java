@@ -11,7 +11,7 @@ public class Assets {
 	public static BufferedImage[] player2_down, player2_up, player2_left, player2_right;
 	public static BufferedImage[] player3_down, player3_up, player3_left, player3_right;
 	public static BufferedImage[] menuButtons;
-	public static BufferedImage[] bomb;
+	public static BufferedImage[] bomb, bombExplosion;
 	
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/BackgroundTiles.png"));
@@ -84,20 +84,41 @@ public class Assets {
 		
 		menuButtons = new BufferedImage[2];
 		
-		menuButtons[0] = sheet.crop(0, 0, 100, 50);
-		menuButtons[1] = sheet.crop(100, 0, 100, 50);
+		menuButtons[0] = sheet.crop(0, 0, 2*width, height);
+		menuButtons[1] = sheet.crop(100, 0, 2*width, height);
 		
 		sheet = new SpriteSheet(ImageLoader.loadImage("/textures/BombAnim.png"));
 		
 		bomb = new BufferedImage[7];
 		
-		bomb[0] = sheet.crop(0, 0, 50, 50);
-		bomb[1] = sheet.crop(50, 0, 50, 50);
-		bomb[2] = sheet.crop(100, 0, 50, 50);
-		bomb[3] = sheet.crop(150, 0, 50, 50);
-		bomb[4] = sheet.crop(0, 50, 50, 50);
-		bomb[5] = sheet.crop(50, 50, 50, 50);
-		bomb[6] = sheet.crop(100, 50, 50, 50);
+		bomb[0] = sheet.crop(0, 0, width, height);
+		bomb[1] = sheet.crop(50, 0, width, height);
+		bomb[2] = sheet.crop(100, 0, width, height);
+		bomb[3] = sheet.crop(150, 0, width, height);
+		bomb[4] = sheet.crop(0, 50, width, height);
+		bomb[5] = sheet.crop(50, 50, width, height);
+		bomb[6] = sheet.crop(100, 50, width, height);
+		
+		sheet = new SpriteSheet(ImageLoader.loadImage("/textures/explosion.png"));
+		
+		bombExplosion = new BufferedImage[16];
+		
+		bombExplosion[0] = sheet.crop(0, 0, width, height);
+		bombExplosion[1] = sheet.crop(50, 0, width, height);
+		bombExplosion[2] = sheet.crop(100, 0, width, height);
+		bombExplosion[3] = sheet.crop(150, 0, width, height);
+		bombExplosion[4] = sheet.crop(0, 50, width, height);
+		bombExplosion[5] = sheet.crop(50, 50, width, height);
+		bombExplosion[6] = sheet.crop(100, 50, width, height);
+		bombExplosion[7] = sheet.crop(150, 50, width, height);
+		bombExplosion[8] = sheet.crop(0, 100, width, height);
+		bombExplosion[9] = sheet.crop(50, 100, width, height);
+		bombExplosion[10] = sheet.crop(100, 100, width, height);
+		bombExplosion[11] = sheet.crop(150, 100, width, height);
+		bombExplosion[12] = sheet.crop(0, 150, width, height);
+		bombExplosion[13] = sheet.crop(50, 150, width, height);
+		bombExplosion[14] = sheet.crop(100, 150, width, height);
+		bombExplosion[15] = sheet.crop(150, 150, width, height);
 		
 //		player1 = sheet.crop(0, 0, width, height);
 //		player2 = sheet.crop(50, 0, width, height);

@@ -1,4 +1,4 @@
-package bomberman.entity.creatures;
+/*package bomberman.entity.creatures;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,10 +24,10 @@ public class Player1 extends Player {
 		collisionBox.y = 24;
 		collisionBox.width = 17;
 		collisionBox.height = 19;
-/*		collisionBox.x = 1;
+		collisionBox.x = 1;
 		collisionBox.y = 1;
 		collisionBox.width = 48;
-		collisionBox.height = 48;*/
+		collisionBox.height = 48;
 		
 		//ANIMATIONS
 		animDown = new Animation(500, Assets.player1_down);
@@ -85,8 +85,8 @@ public class Player1 extends Player {
 		g.setColor(Color.red);
 //		g.fillRect((int) (x + collisionBox.x), (int) (y + collisionBox.y), 
 //				collisionBox.width, collisionBox.height);
-		/*g.fillOval((int) (x + collisionBox.x), (int) (y + collisionBox.y), 
-				collisionBox.width, collisionBox.height);*/
+		g.fillOval((int) (x + collisionBox.x), (int) (y + collisionBox.y), 
+				collisionBox.width, collisionBox.height);
 	}
 	
 	private BufferedImage getCurrentAnimationFrame() {
@@ -104,3 +104,4 @@ public class Player1 extends Player {
 	}
 
 }
+*/
