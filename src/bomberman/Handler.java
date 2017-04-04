@@ -8,12 +8,13 @@ import bomberman.entity.creatures.*;
 
 public class Handler {
 
+	private int[] myPos = new int[2];
 	
 	private Game game;
 	private World world;
 	
 	public Handler(Game game) {
-		this.game = game;
+		this.game = game;	
 	}
 	
 	public KeyManager getKeyManager() {
@@ -55,4 +56,14 @@ public class Handler {
 	public void explode(Bomb b) {
 		world.explode(b);
 	}
+	
+	public void setMyPos(int x, int y) {
+		myPos[0] = x;
+		myPos[1] = y;
+	}
+	
+	public int[] getMyPos() {
+		return myPos;
+	}
+	
 }

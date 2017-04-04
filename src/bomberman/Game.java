@@ -2,6 +2,11 @@ package bomberman;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import bomberman.display.Display;
 import bomberman.gfx.Assets;
@@ -38,8 +43,9 @@ public class Game implements Runnable{
 	
 	//HANDLER
 	private Handler handler;
+	private ConnectionHandler connectionHandler;
 	
-	public Game(String title, int width, int height) {
+	public Game(String title, int width, int height) {	
 		this.width = width;
 		this.height = height;
 		this.title = title;
@@ -60,6 +66,7 @@ public class Game implements Runnable{
 		Assets.init();
 		
 		handler = new Handler(this);
+		connectionHandler = new ConnectionHandler(handler);
 		
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);

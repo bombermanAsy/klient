@@ -27,11 +27,6 @@ public class World {
 		entityManager = new EntityManager(handler);
 		
 		loadWorld(path);
-		
-		for (int i=0; i<Player.numOfPlayers; i++) {
-			entityManager.getPlayer(i).setX(spawnX[i]);
-			entityManager.getPlayer(i).setY(spawnY[i]);
-		}		
 	}
 	
 	public void tick() {
@@ -103,4 +98,12 @@ public class World {
 		}
 		*///=======================================
 	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+
 }
+
+
