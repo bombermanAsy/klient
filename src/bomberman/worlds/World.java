@@ -102,6 +102,10 @@ public class World {
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
+	public void addPlayer(int x, int y) {
+		entityManager.addPlayer(x,  y);
+	}
 
 
 }

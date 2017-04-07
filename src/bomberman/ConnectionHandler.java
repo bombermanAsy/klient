@@ -53,11 +53,18 @@ public class ConnectionHandler {
 			
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			int x = (int) in.readObject();
-			System.out.println(x);
 			if (x != 0) {
 				int y = (int) in.readObject();
-				System.out.println(y);
-				handler.setMyPos(x,y);
+				handler.addPlayer(x, y);
+				
+				while (in.available() != 1) {
+				int gracze = (int) in.readObject();
+        		for (int i=0; i < gracze; i++) {
+        			int a = (int) in.readObject();
+        			int b = (int) in.readObject();
+        			handler.addPlayer(a, b);
+        		}
+				}
 			}	
 			else throw new Exception("Zbyt du¿a iloœæ pod³¹czonych graczy!");
 			

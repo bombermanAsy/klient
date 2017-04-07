@@ -12,17 +12,16 @@ public class EntityManager {
 
 	private Handler handler;
 	private ArrayList<Player> players;
+	private Player me = null;
 	private ArrayList<Entity> entities;
 
 	public EntityManager(Handler handler) {
 		this.handler = handler;
 
 		players = new ArrayList<Player>();
-		int[] myPos = handler.getMyPos();
+		//int[] myPos = handler.getMyPos();
 
-		players.add(new Player(handler, myPos[0], myPos[1]));
-		// players.add(new Player(handler, 650, 550));
-		// players.add(new Player(handler, 50, 550));
+		//players.add(new Player(handler, myPos[0], myPos[1]));
 
 		entities = new ArrayList<Entity>();
 	}
@@ -33,8 +32,7 @@ public class EntityManager {
 			e.tick();
 		}
 
-		for (Player x : players)
-			x.tick();
+		me.tick();
 	}
 
 	public void render(Graphics g) {
@@ -94,7 +92,11 @@ public class EntityManager {
 	}
 	
 	public void addPlayer(int x, int y) {
-		players.add(new Player(handler, x, y));
+		if (me == null) {
+			me = new Player(handler, x, y);
+			players.add(me);
+		}
+		else players.add(new Player(handler, x, y));
 		
 	}
 }

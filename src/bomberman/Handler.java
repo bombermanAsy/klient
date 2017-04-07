@@ -58,12 +58,13 @@ public class Handler {
 	}
 	
 	public void setMyPos(int x, int y) {
-		myPos[0] = x;
-		myPos[1] = y;
+		world.getEntityManager().addPlayer(x, y);
 	}
 	
-	public int[] getMyPos() {
-		return myPos;
+	
+	
+	public void addPlayer(int x, int y) {
+		world.addPlayer(x,y);
 	}
 	
 }

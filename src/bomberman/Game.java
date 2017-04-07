@@ -66,12 +66,15 @@ public class Game implements Runnable{
 		Assets.init();
 		
 		handler = new Handler(this);
+		gameState = new GameState(handler);
+		
 		connectionHandler = new ConnectionHandler(handler);
 		
-		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
 //		State.setState(gameState);
 		State.setState(menuState);
+		
+	
 	}
 	
 	
