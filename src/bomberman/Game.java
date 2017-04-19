@@ -45,12 +45,18 @@ public class Game implements Runnable{
 	private Handler handler;
 	private ConnectionHandler connectionHandler;
 	
-	public Game(String title, int width, int height) {	
+	public Game(String title, ConnectionHandler ch, int width, int height) {	
 		this.width = width;
 		this.height = height;
 		this.title = title;
+		this.connectionHandler = ch;
+		this.connectionHandler.addHandler(this.handler);
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
+	}
+	
+	public ConnectionHandler getConnectionHandler() {
+		return connectionHandler;
 	}
 
 	private void init() {
@@ -68,15 +74,16 @@ public class Game implements Runnable{
 		handler = new Handler(this);
 		gameState = new GameState(handler);
 		
-		connectionHandler = new ConnectionHandler(handler);
+		//connectionHandler = new ConnectionHandler(handler);
 		
 		menuState = new MenuState(handler);
 //		State.setState(gameState);
 		State.setState(menuState);
-		
 	
 	}
 	
+
+
 	
 	private void tick() {
 		keyManager.tick();
@@ -191,5 +198,9 @@ public class Game implements Runnable{
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+	
+	public Graphics getGraphics() {
+		return g;
 	}
 }

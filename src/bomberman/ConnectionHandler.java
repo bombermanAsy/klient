@@ -1,10 +1,12 @@
 package bomberman;
 
 import java.io.BufferedInputStream;
+import bomberman.entity.creatures.*;
 import java.io.BufferedOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,15 +16,29 @@ public class ConnectionHandler {
 	private final ExecutorService executor = Executors.newFixedThreadPool(4);
 	boolean alive = true;
 	private Socket socket;
+	private int[] positions; //kolejno X i Y - pierwsze moje, potem innych
+	private int gracze;
 	
-	public ConnectionHandler(Handler handler) {
-	this.handler = handler;
+	public ConnectionHandler() {
+		positions = new int[8];
 	try {
 		socket = new Socket("127.0.0.1", PORT); 
 		sendMessage(1);
 		} catch (Exception e) {
 			System.out.println("Nie uda³o siê nawi¹zaæ po³¹czenia");
 		}
+	}
+	
+	public void addHandler(Handler h) {
+		this.handler = h;
+	}
+	
+	public int[] getPositions() {
+		return positions;
+	}
+	
+	public int getGracze() {
+		return gracze + 1;
 	}
 	
 	public void sendMessage(int type) {
@@ -48,28 +64,36 @@ public class ConnectionHandler {
 
 	private void makeConnection() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());			
-			out.writeObject(1);	
+			
+			System.out.println("Oczekiwanie na pozosta³ych graczy");
 			
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			int x = (int) in.readObject();
 			if (x != 0) {
 				int y = (int) in.readObject();
-				handler.addPlayer(x, y);
+				//handler.addPlayer(x, y);
+				positions[0] = x;
+				positions[1] = y;
 				
-				while (in.available() != 1) {
-				int gracze = (int) in.readObject();
-        		for (int i=0; i < gracze; i++) {
+				//while (in.available() != 1) {
+				int k = 2;
+				
+				
+				gracze = (int) in.readObject();
+        		
+				
+				for (int i=0; i < gracze; i++) {
         			int a = (int) in.readObject();
         			int b = (int) in.readObject();
-        			handler.addPlayer(a, b);
+        			//handler.addPlayer(a, b);
+        			positions[k++] = a;
+        			positions[k++] = b;
         		}
-				}
+				//}
 			}	
 			else throw new Exception("Zbyt du¿a iloœæ pod³¹czonych graczy!");
 			
 			in.close();
-			out.close();
 		} catch (Exception e) {
 		System.out.println("B³¹d w makeConnection");
 		e.printStackTrace();

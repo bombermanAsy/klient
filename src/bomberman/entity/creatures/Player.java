@@ -52,25 +52,16 @@ public class Player extends Entity {
 		numOfPlayers++;
 		
 		//ANIMATIONS
-		switch(playersNum) {
-		case 0:
+		if(playersNum == 0) {
 			animDown = new Animation(500, Assets.player1_down);
 			animUp = new Animation(500, Assets.player1_up);
 			animLeft = new Animation(500, Assets.player1_left);
 			animRight = new Animation(500, Assets.player1_right);
-			break;
-		case 1:
+		} else {
 			animDown = new Animation(500, Assets.player2_down);
 			animUp = new Animation(500, Assets.player2_up);
 			animLeft = new Animation(500, Assets.player2_left);
-			animRight = new Animation(500, Assets.player2_right);
-			break;
-		case 2:
-			animDown = new Animation(500, Assets.player3_down);
-			animUp = new Animation(500, Assets.player3_up);
-			animLeft = new Animation(500, Assets.player3_left);
-			animRight = new Animation(500, Assets.player3_right);
-			break;			
+			animRight = new Animation(500, Assets.player2_right);			
 		}
 	}
 	
@@ -148,12 +139,8 @@ public class Player extends Entity {
 		} else if(yMove > 0) {
 			return animDown.getCurrentFrame();
 		} else {
-			switch(playersNum) {
-				case 0: return Assets.player1_down[0];
-				case 1: return Assets.player2_down[0];
-				case 2: return Assets.player3_down[0];
-				default: return null;
-			}
+			if (playersNum == 0) return Assets.player1_down[0];
+			else return Assets.player2_down[0];
 		}
 	}
 

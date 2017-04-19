@@ -26,7 +26,7 @@ public class UIManager {
 			o.render(g);
 	}
 	
-	public void onMouseMove(MouseEvent e) {
+	synchronized public void onMouseMove(MouseEvent e) {
 		for(UIObject o : objects)
 			o.onMouseMove(e);
 	}

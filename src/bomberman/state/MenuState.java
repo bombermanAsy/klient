@@ -7,6 +7,7 @@ import bomberman.gfx.Assets;
 import bomberman.ui.ClickListener;
 import bomberman.ui.UIImageButton;
 import bomberman.ui.UIManager;
+import bomberman.ui.UILabel;
 
 public class MenuState extends State {
 
@@ -28,6 +29,11 @@ public class MenuState extends State {
 					}
 				}));
 	}
+	
+	public void waiting() {
+		uiManager.addObject(new UILabel(100,100,100,100));
+	}
+	
 	
 	@Override
 	public void tick() {

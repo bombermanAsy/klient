@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 public class Display {
 
@@ -47,4 +48,5 @@ public class Display {
 	public JFrame getFrame() {
 		return frame;
 	}
+
 }

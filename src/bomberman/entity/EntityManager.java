@@ -22,6 +22,14 @@ public class EntityManager {
 		//int[] myPos = handler.getMyPos();
 
 		//players.add(new Player(handler, myPos[0], myPos[1]));
+		
+		int[] positions = handler.getGame().getConnectionHandler().getPositions();
+		int gracze = handler.getGame().getConnectionHandler().getGracze();
+		
+		for (int i=0; i<2*gracze; i+=2) {
+			addPlayer(positions[i], positions[i+1]);
+		}
+		
 
 		entities = new ArrayList<Entity>();
 	}
