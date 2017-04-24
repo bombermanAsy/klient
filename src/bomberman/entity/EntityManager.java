@@ -65,12 +65,9 @@ public class EntityManager {
 				it.remove();
 			}
 		}
-		for (Player x : players) {
-			if (x == b.getWhoPlantMe()) {
-				x.addOne();
-				break;
-			}
-		}
+		
+		if (b.isThisMine()) me.addOne();
+		
 	}
 
 	// GETTERS AND SETTERS

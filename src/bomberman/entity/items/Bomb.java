@@ -16,14 +16,14 @@ public class Bomb extends Item {
 	// VARIABLES
 	private int lifeTime = 100;
 	private int explosionTime = 30;
-	private Player whoPlantMe;
 	private static boolean shouldIExplode = false;
+	private boolean mine;
 
-	public Bomb(Handler handler, float x, float y, int width, int height, Player a) {
+	public Bomb(Handler handler, float x, float y, int width, int height, boolean mine) {
 		super(handler, x, y, width, height);
 
-		whoPlantMe = a;
-
+		this.mine = mine;
+		
 		collisionBox.x = 1;
 		collisionBox.y = 1;
 		collisionBox.width = 49;
@@ -33,9 +33,9 @@ public class Bomb extends Item {
 		bombAnim = new Animation(250, Assets.bomb);
 		bombExplosion = new Animation(50, Assets.bombExplosion);
 	}
-
-	public Player getWhoPlantMe() {
-		return whoPlantMe;
+	
+	public boolean isThisMine() {
+		return mine;
 	}
 
 	@Override

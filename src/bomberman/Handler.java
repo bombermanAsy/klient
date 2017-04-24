@@ -49,8 +49,8 @@ public class Handler {
 		this.world = world;
 	}
 	
-	public void plantBomb(Player a, float x, float y) {
-		this.world.plantBomb(a, x, y);
+	public void plantBomb(float x, float y, boolean mine) {
+		this.world.plantBomb(x, y, mine);
 	}
 	
 	public void explode(Bomb b) {

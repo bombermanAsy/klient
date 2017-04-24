@@ -55,8 +55,8 @@ public class World {
 		return t;
 	}
 	
-	public void plantBomb(Player a, float x, float y) {
-		entityManager.addEntity(new Bomb(handler, x, y, 50, 50, a));
+	public void plantBomb(float x, float y, boolean mine) {
+		entityManager.addEntity(new Bomb(handler, x, y, 50, 50, mine));
 	}
 	
 	public void explode(Bomb b) {

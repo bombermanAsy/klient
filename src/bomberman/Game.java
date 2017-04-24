@@ -50,6 +50,7 @@ public class Game implements Runnable{
 		this.height = height;
 		this.title = title;
 		this.connectionHandler = ch;
+		this.handler = new Handler(this);
 		this.connectionHandler.addHandler(this.handler);
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
@@ -71,7 +72,6 @@ public class Game implements Runnable{
 		//sheet = new SpriteSheet(backgroundTiles);
 		Assets.init();
 		
-		handler = new Handler(this);
 		gameState = new GameState(handler);
 		
 		//connectionHandler = new ConnectionHandler(handler);

@@ -113,7 +113,8 @@ public class Player extends Entity {
 	
 	private void plantBomb() {
 		if (numOfBombs > 0 && canIPlant == true) {
-			handler.plantBomb(this, this.x, this.y);
+			handler.plantBomb(this.x, this.y, true);
+			handler.getGame().getConnectionHandler().plantBomb((int)x,(int)y);
 			numOfBombs--;
 			canIPlant = false;
 		}
