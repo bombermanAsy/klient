@@ -63,11 +63,18 @@ public class EntityManager {
 			Player x = it.next();
 			if (Math.abs(x.getX() - b.getX()) < 50 && Math.abs(x.getY() - b.getY()) < 50) {
 				it.remove();
+				if (x == me) {
+					handler.getGame().getConnectionHandler().iDied();
+					handler.gameOver(false);
+				}
 			}
 		}
 		
 		if (b.isThisMine()) me.addOne();
 		
+		if (players.size() == 1 && players.get(0) == me) {
+			handler.gameOver(true);
+		}
 	}
 
 	// GETTERS AND SETTERS

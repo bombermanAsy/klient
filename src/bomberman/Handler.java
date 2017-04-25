@@ -67,4 +67,8 @@ public class Handler {
 		world.addPlayer(x,y);
 	}
 	
+	public void gameOver(boolean win) {
+		getGame().gameOver(win);
+	}
+	
 }

@@ -1,12 +1,15 @@
 package bomberman;
 
 import java.awt.Graphics;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import javax.swing.JFrame;
 
 import bomberman.display.Display;
 import bomberman.gfx.Assets;
@@ -202,5 +205,18 @@ public class Game implements Runnable{
 	
 	public Graphics getGraphics() {
 		return g;
+	}
+	
+	public void gameOver(boolean win) {
+		this.stop();
+		//display.getFrame().dispose();
+		//display.getFrame().setVisible(false);
+		JFrame koniec;
+		if (!win) koniec = new JFrame("KONIEC GRY - przegrales");
+		else koniec = new JFrame("KONIEC GRY - wygrales");
+		koniec.setLocation(150, 150);
+		koniec.setSize(350, 350);
+		koniec.setAlwaysOnTop(true);
+		koniec.setVisible(true);
 	}
 }

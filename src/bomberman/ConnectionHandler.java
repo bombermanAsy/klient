@@ -120,18 +120,26 @@ public class ConnectionHandler {
 			int y = (int) in.readObject();
 			handler.plantBomb(x,  y, false);
 			break;
-		case 2:
-			//zabij kogos
-			
-			break;
 		}
+		if (!alive) break;
 		}
 
 		}
 		catch (Exception e) {
+			//e.printStackTrace();
+		}
+		}
+	
+	
+	public void iDied() {
+		try {
+			out.writeObject(2);
+			destroy();
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		}
+	}
+	
 	
 	public void destroy() {
 		try {
