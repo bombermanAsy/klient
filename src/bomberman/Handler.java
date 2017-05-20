@@ -1,14 +1,13 @@
 package bomberman;
 
+import bomberman.entity.items.Bomb;
 import bomberman.input.KeyManager;
 import bomberman.input.MouseManager;
 import bomberman.worlds.World;
-import bomberman.entity.items.Bomb;
-import bomberman.entity.creatures.*;
 
 public class Handler {
 
-	private int[] myPos = new int[2];
+	// private int[] myPos = new int[2];
 
 	private Game game;
 	private World world;
@@ -69,4 +68,16 @@ public class Handler {
 		getGame().gameOver(win);
 	}
 
+	public void setPlayerPos(float x, float y, int who) {
+		world.getEntityManager().getPlayer(who).setX(x);
+		world.getEntityManager().getPlayer(who).setY(y);
+	}
+	public float getPlayerPosX(int who) {
+		float x = world.getEntityManager().getPlayer(who).getX();
+		return x;
+	}
+	public float getPlayerPosY(int who) {
+		float y = world.getEntityManager().getPlayer(who).getY();
+		return y;
+	}
 }

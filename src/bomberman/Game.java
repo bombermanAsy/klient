@@ -55,6 +55,9 @@ public class Game implements Runnable {
 		this.connectionHandler = ch;
 		this.handler = new Handler(this);
 		this.connectionHandler.addHandler(this.handler);
+		
+		//this.connectionHandler.startUDPClient();
+		
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
 	}
@@ -84,6 +87,9 @@ public class Game implements Runnable {
 		State.setState(gameState);
 		// State.setState(menuState);
 
+		
+		connectionHandler.startUDPClient();
+		
 	}
 
 	private void tick() {

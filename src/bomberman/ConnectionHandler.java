@@ -7,8 +7,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,28 +22,40 @@ public class ConnectionHandler {
 	private int gracze;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-	private Lock lock = new ReentrantLock();
+	// private Lock lock = new ReentrantLock();
 	private boolean ready = false;
+	private int pl_num;
 
 	public ConnectionHandler() {
 		positions = new int[8];
 		try {
 			socket = new Socket("127.0.0.1", PORT);
+			// socket = new Socket("192.168.0.103", PORT);
 			try {
 				in = new ObjectInputStream(socket.getInputStream());
 				out = new ObjectOutputStream(socket.getOutputStream());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			makeConnection();
 		} catch (Exception e) {
 			System.out.println("Nie uda³o siê nawi¹zaæ po³¹czenia");
 		}
 	}
 
+	public int getPl_num() {
+		return pl_num;
+	}
+
 	public void addHandler(Handler h) {
 		this.handler = h;
 		executor.submit(() -> listen());
+	}
+
+	public void startUDPClient() {
+		new UDPClient(PORT, pl_num, handler).start();
+		System.out.println("UDP Client Started");
 	}
 
 	public int[] getPositions() {
@@ -76,6 +86,8 @@ public class ConnectionHandler {
 				positions[0] = x;
 				positions[1] = y;
 
+				pl_num = (int) in.readObject();
+
 				int k = 2;
 				gracze = (int) in.readObject();
 
@@ -95,6 +107,10 @@ public class ConnectionHandler {
 			} else
 				throw new Exception("Zbyt du¿a iloœæ pod³¹czonych graczy!");
 			waitingForPlayers.setVisible(false);
+
+//////////////////////////////////////////////////////////////////////////////////
+			new UDPClient(PORT, pl_num, handler).start();
+
 		} catch (Exception e) {
 			System.out.println("B³¹d w makeConnection");
 			e.printStackTrace();
@@ -123,7 +139,9 @@ public class ConnectionHandler {
 		}
 
 		try {
+
 			while (true) {
+
 				int opt = (int) in.readObject();
 				switch (opt) {
 				case 1:
@@ -131,14 +149,23 @@ public class ConnectionHandler {
 					int x = (int) in.readObject();
 					int y = (int) in.readObject();
 					handler.plantBomb(x, y, false);
+
 					break;
+
+				/*case 3: // receive positions of player 'who' from server and upload it
+					float pos_x = (float) in.readObject();
+					float pos_y = (float) in.readObject();
+					int who = (int) in.readObject();
+					handler.setPlayerPos(pos_x, pos_y, who);
+					break;*/
+
 				}
 				if (!alive)
 					break;
 			}
 
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -161,4 +188,15 @@ public class ConnectionHandler {
 		}
 	}
 
+	public void moveMe(float x, float y, int who) {
+		try {
+			out.writeObject(3);
+			out.writeObject(x);
+			out.writeObject(y);
+			out.writeObject(who);
+			System.out.println("ConnectionHandler przesuwa gracza: " + who + " na pozycje: " + x + ", " + y);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

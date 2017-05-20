@@ -28,6 +28,7 @@ public class Player extends Entity {
 	
 	protected static int plantDelay = PLANT_DELAY_TIME;
 	protected static boolean canIPlant = true;
+	protected int player_num;
 	
 	//ANIMATIONS
 	private Animation animDown;
@@ -41,7 +42,7 @@ public class Player extends Entity {
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
-		numOfBombs = 5;
+		numOfBombs = 1;
 		
 		collisionBox.x = 16;
 		collisionBox.y = 24;
@@ -50,6 +51,8 @@ public class Player extends Entity {
 		
 		playersNum = numOfPlayers;
 		numOfPlayers++;
+		
+		player_num = handler.getGame().getConnectionHandler().getPl_num();
 		
 		//ANIMATIONS
 		if(playersNum == 0) {
@@ -167,6 +170,7 @@ public class Player extends Entity {
 				x = tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - collisionBox.x;
 			}
 		}
+		//handler.getGame().getConnectionHandler().moveMe(x, y, player_num);
 	}
 	public void moveY() {
 		//y += yMove;
@@ -191,6 +195,7 @@ public class Player extends Entity {
 				y = ty * Tile.TILE_HEIGHT - collisionBox.y - collisionBox.height - 1;
 			}
 		}
+		//handler.getGame().getConnectionHandler().moveMe(x, y, player_num);
 	}
 	public void move() {
 		moveX();
