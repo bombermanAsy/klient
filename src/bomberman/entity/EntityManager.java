@@ -38,13 +38,6 @@ public class EntityManager {
 		for (int i=0; i<gracze; i++) {
 			addPlayer(positions[2*pl_num[i]], positions[2*pl_num[i]+1], i);
 		}
-		for (Player pl : players) {
-			if (pl != null) {
-				System.out.println("Pl number: " + pl.player_num);
-				System.out.println("Pl pos: " + pl.getX() + " " + pl.getY());
-				if (me == pl) System.out.println("JA");
-			}
-		}
 
 		entities = new ArrayList<Entity>(gracze);
 		canIAlready = true;
@@ -79,23 +72,31 @@ public class EntityManager {
 
 	public void removeBomb(Bomb b) {
 		entities.remove(b);
-		Iterator<Player> it = players.iterator();
-		while (it.hasNext()) {
-			Player x = it.next();
+		for (Player x : players) {
 			if (x != null) {
 				if (Math.abs(x.getX() - b.getX()) < 50 && Math.abs(x.getY() - b.getY()) < 50) {
-					it.remove();
 					if (x == me) {
 						handler.getGame().getConnectionHandler().iDied();
 						handler.gameOver(false);
 					}
+					x.setAlive(false);
+					//x = null;
 				} 
 			}
 		}
 		
 		if (b.isThisMine()) me.addOne();
 		
-		if (players.size() == 1 && players.get(0) == me) {
+		int zywi = 0;
+		Player left = null;
+		for (Player x : players) {
+			if (x.isAlive()) {
+				zywi++;
+				left = x;
+			}
+		}
+		
+		if (zywi==1 && left == me) {
 			handler.gameOver(true);
 		}
 	}
@@ -131,7 +132,6 @@ public class EntityManager {
 		if (nr == 0) {
 			me = new Player(handler, x, y, true);
 			players.set(pl_num[nr], me);
-			System.out.println("ME :: " + me.player_num);
 		}
 		else  {
 			Player other = new Player(handler, x, y, false);

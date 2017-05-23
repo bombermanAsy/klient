@@ -261,5 +261,5 @@ public class Player extends Entity {
 	public void setyMove(float yMove) {
 		this.yMove = yMove;
 	}
-
+	
 }

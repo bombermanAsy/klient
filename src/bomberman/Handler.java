@@ -79,8 +79,6 @@ public class Handler {
 		World w = getWorld();
 		EntityManager e = w.getEntityManager();
 		int n = e.getMyNum();
-		System.out.println("MY NUM : "+ n);
-		System.out.println("WHO : "+who);
 		
 		e.getPlayer(who).setX(x);
 		e.getPlayer(who).setY(y);

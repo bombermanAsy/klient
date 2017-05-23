@@ -164,7 +164,7 @@ public class ConnectionHandler {
 					int pos_x = (int) in.readObject();
 					int pos_y = (int) in.readObject();
 					int who = (int) in.readObject();
-					System.out.println("WHO: " + who + " / X: " + pos_x + " / Y: " + pos_y);
+					//System.out.println("WHO: " + who + " / X: " + pos_x + " / Y: " + pos_y);
 					if (canISend == true) {
 						handler.setPlayerPos(pos_x, pos_y, who);
 					}
