@@ -150,7 +150,7 @@ public class ConnectionHandler {
 			System.out.println("I am :: " + pl_num[0]);
 			
 			while (true) {
-
+				
 				char opt = (char) in.readObject();
 				switch (opt) {
 				case 'a':
@@ -176,7 +176,13 @@ public class ConnectionHandler {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				in.close();
+				out.close();
+				socket.close();
+			} catch (Exception ee) {
+				ee.printStackTrace();
+			}
 		}
 	}
 
@@ -207,7 +213,7 @@ public class ConnectionHandler {
 			out.writeObject(who);
 			//System.out.println("ConnectionHandler przesuwa gracza: " + who + " na pozycje: " + x + ", " + y);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }

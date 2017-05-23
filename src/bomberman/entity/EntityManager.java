@@ -90,7 +90,7 @@ public class EntityManager {
 		int zywi = 0;
 		Player left = null;
 		for (Player x : players) {
-			if (x.isAlive()) {
+			if (x != null && x.isAlive()) {
 				zywi++;
 				left = x;
 			}
