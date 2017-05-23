@@ -14,24 +14,41 @@ public class EntityManager {
 	private ArrayList<Player> players;
 	private Player me = null;
 	private ArrayList<Entity> entities;
-
+	
+	public static boolean canIAlready = false;
+	
 	public EntityManager(Handler handler) {
 		this.handler = handler;
 
 		players = new ArrayList<Player>();
-		//int[] myPos = handler.getMyPos();
-
-		//players.add(new Player(handler, myPos[0], myPos[1]));
-		
-		int[] positions = handler.getGame().getConnectionHandler().getPositions();
-		int gracze = handler.getGame().getConnectionHandler().getGracze();
-		
-		for (int i=0; i<2*gracze; i+=2) {
-			addPlayer(positions[i], positions[i+1]);
+		for (int i=0; i<4; i++) {
+			players.add(null);
 		}
 		
+		//int[] myPos = handler.getGame().getConnectionHandler().getPositions();
 
-		entities = new ArrayList<Entity>();
+		//players.set(0, new Player(handler, myPos[0], myPos[1]));
+		
+		
+		int[] positions = handler.getGame().getConnectionHandler().getPositions();
+		int[] pl_num = handler.getGame().getConnectionHandler().getPl_num();
+		int gracze = handler.getGame().getConnectionHandler().getGracze();
+		
+		
+		for (int i=0; i<gracze; i++) {
+			addPlayer(positions[2*pl_num[i]], positions[2*pl_num[i]+1], i);
+		}
+		for (Player pl : players) {
+			if (pl != null) {
+				System.out.println("Pl number: " + pl.player_num);
+				System.out.println("Pl pos: " + pl.getX() + " " + pl.getY());
+				if (me == pl) System.out.println("JA");
+			}
+		}
+
+		entities = new ArrayList<Entity>(gracze);
+		canIAlready = true;
+		
 	}
 
 	public void tick() {
@@ -49,7 +66,11 @@ public class EntityManager {
 		}
 
 		for (Player x : players)
-			x.render(g);
+			if (x != null) {
+				if (x.isAlive() == true) {
+					x.render(g);
+				} 
+			}
 	}
 
 	public void addEntity(Entity e) {
@@ -61,12 +82,14 @@ public class EntityManager {
 		Iterator<Player> it = players.iterator();
 		while (it.hasNext()) {
 			Player x = it.next();
-			if (Math.abs(x.getX() - b.getX()) < 50 && Math.abs(x.getY() - b.getY()) < 50) {
-				it.remove();
-				if (x == me) {
-					handler.getGame().getConnectionHandler().iDied();
-					handler.gameOver(false);
-				}
+			if (x != null) {
+				if (Math.abs(x.getX() - b.getX()) < 50 && Math.abs(x.getY() - b.getY()) < 50) {
+					it.remove();
+					if (x == me) {
+						handler.getGame().getConnectionHandler().iDied();
+						handler.gameOver(false);
+					}
+				} 
 			}
 		}
 		
@@ -78,6 +101,10 @@ public class EntityManager {
 	}
 
 	// GETTERS AND SETTERS
+	
+	public int getMyNum() {
+		return me.player_num;
+	}
 
 	public Handler getHandler() {
 		return handler;
@@ -88,11 +115,7 @@ public class EntityManager {
 	}
 
 	public Player getPlayer(int i) {
-		for (Player x : players) {
-			if (x.getNumber() == i)
-				return x;
-		}
-		return null;
+		return players.get(i);
 	}
 
 	public ArrayList<Entity> getEntities() {
@@ -103,12 +126,25 @@ public class EntityManager {
 		this.entities = entities;
 	}
 	
-	public void addPlayer(int x, int y) {
-		if (me == null) {
-			me = new Player(handler, x, y);
-			players.add(me);
+	public void addPlayer(int x, int y, int nr) {
+		int[] pl_num = handler.getGame().getConnectionHandler().getPl_num();
+		if (nr == 0) {
+			me = new Player(handler, x, y, true);
+			players.set(pl_num[nr], me);
+			System.out.println("ME :: " + me.player_num);
 		}
-		else players.add(new Player(handler, x, y));
+		else  {
+			Player other = new Player(handler, x, y, false);
+			players.set(pl_num[nr], other);
+		}
 		
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 }

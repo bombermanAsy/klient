@@ -88,7 +88,7 @@ public class Game implements Runnable {
 		// State.setState(menuState);
 
 		
-		connectionHandler.startUDPClient();
+		//connectionHandler.startUDPClient();
 		
 	}
 

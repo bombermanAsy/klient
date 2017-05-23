@@ -2,10 +2,8 @@ package bomberman.worlds;
 
 import java.awt.Graphics;
 
-
 import bomberman.Handler;
 import bomberman.entity.EntityManager;
-import bomberman.entity.creatures.*;
 import bomberman.entity.items.Bomb;
 import bomberman.tile.Tile;
 import bomberman.utils.Utils;
@@ -27,6 +25,7 @@ public class World {
 		entityManager = new EntityManager(handler);
 		
 		loadWorld(path);
+		handler.getGame().getConnectionHandler().canISend = true;
 	}
 	
 	public void tick() {
@@ -104,7 +103,7 @@ public class World {
 	}
 	
 	public void addPlayer(int x, int y) {
-		entityManager.addPlayer(x,  y);
+		//entityManager.addPlayer(x,  y);
 	}
 
 

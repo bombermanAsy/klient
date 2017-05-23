@@ -18,16 +18,18 @@ public class ConnectionHandler {
 	private final ExecutorService executor = Executors.newFixedThreadPool(4);
 	boolean alive = true;
 	private Socket socket;
-	private int[] positions; // kolejno X i Y - pierwsze moje, potem innych
+	private int[] positions; // kolejno X i Y - pierwsze moje, potem innych 
 	private int gracze;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	// private Lock lock = new ReentrantLock();
 	private boolean ready = false;
-	private int pl_num;
+	private int[] pl_num;
+	public boolean canISend = false;
 
 	public ConnectionHandler() {
 		positions = new int[8];
+		pl_num = new int[4];
 		try {
 			socket = new Socket("127.0.0.1", PORT);
 			// socket = new Socket("192.168.0.103", PORT);
@@ -44,7 +46,7 @@ public class ConnectionHandler {
 		}
 	}
 
-	public int getPl_num() {
+	public int[] getPl_num() {
 		return pl_num;
 	}
 
@@ -53,10 +55,10 @@ public class ConnectionHandler {
 		executor.submit(() -> listen());
 	}
 
-	public void startUDPClient() {
+	/*public void startUDPClient() {
 		new UDPClient(PORT, pl_num, handler).start();
 		System.out.println("UDP Client Started");
-	}
+	}*/
 
 	public int[] getPositions() {
 		return positions;
@@ -82,21 +84,25 @@ public class ConnectionHandler {
 
 			int x = (int) in.readObject();
 			if (x != 0) {
-				int y = (int) in.readObject();
-				positions[0] = x;
-				positions[1] = y;
+				pl_num[0] = (int) in.readObject();
+				positions[2*pl_num[0]] = (int) in.readObject();
+				positions[2*pl_num[0]+1] = (int) in.readObject();
 
-				pl_num = (int) in.readObject();
+				
 
-				int k = 2;
+				
+				int m = 1;
 				gracze = (int) in.readObject();
 
 				for (int i = 0; i < gracze; i++) {
+					int nr = (int) in.readObject();
 					int a = (int) in.readObject();
 					int b = (int) in.readObject();
 
-					positions[k++] = a;
-					positions[k++] = b;
+					pl_num[m] = nr;
+					positions[2*pl_num[m]] = a;
+					positions[2*pl_num[m++]+1] = b;
+				
 				}
 
 				synchronized (executor) {
@@ -109,7 +115,7 @@ public class ConnectionHandler {
 			waitingForPlayers.setVisible(false);
 
 //////////////////////////////////////////////////////////////////////////////////
-			new UDPClient(PORT, pl_num, handler).start();
+			//new UDPClient(PORT, pl_num, handler).start();
 
 		} catch (Exception e) {
 			System.out.println("B³¹d w makeConnection");
@@ -117,9 +123,9 @@ public class ConnectionHandler {
 		}
 	}
 
-	public void plantBomb(int x, int y) {
+	public synchronized void plantBomb(int x, int y) {
 		try {
-			out.writeObject(1);
+			out.writeObject('a');
 			out.writeObject(x);
 			out.writeObject(y);
 		} catch (Exception e) {
@@ -139,25 +145,30 @@ public class ConnectionHandler {
 		}
 
 		try {
-
+			
+			
+			System.out.println("I am :: " + pl_num[0]);
+			
 			while (true) {
 
-				int opt = (int) in.readObject();
+				char opt = (char) in.readObject();
 				switch (opt) {
-				case 1:
+				case 'a':
 					// postaw bombe
 					int x = (int) in.readObject();
 					int y = (int) in.readObject();
 					handler.plantBomb(x, y, false);
-
 					break;
 
-				/*case 3: // receive positions of player 'who' from server and upload it
-					float pos_x = (float) in.readObject();
-					float pos_y = (float) in.readObject();
+				case 'c': // receive positions of player 'who' from server and upload it
+					int pos_x = (int) in.readObject();
+					int pos_y = (int) in.readObject();
 					int who = (int) in.readObject();
-					handler.setPlayerPos(pos_x, pos_y, who);
-					break;*/
+					System.out.println("WHO: " + who + " / X: " + pos_x + " / Y: " + pos_y);
+					if (canISend == true) {
+						handler.setPlayerPos(pos_x, pos_y, who);
+					}
+					break;
 
 				}
 				if (!alive)
@@ -169,9 +180,9 @@ public class ConnectionHandler {
 		}
 	}
 
-	public void iDied() {
+	public synchronized void iDied() {
 		try {
-			out.writeObject(2);
+			out.writeObject('b');
 			destroy();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,13 +199,13 @@ public class ConnectionHandler {
 		}
 	}
 
-	public void moveMe(float x, float y, int who) {
+	public synchronized void sendMyPos(float x, float y, int who) {
 		try {
-			out.writeObject(3);
-			out.writeObject(x);
-			out.writeObject(y);
+			out.writeObject('c');
+			out.writeObject((int)x);
+			out.writeObject((int)y);
 			out.writeObject(who);
-			System.out.println("ConnectionHandler przesuwa gracza: " + who + " na pozycje: " + x + ", " + y);
+			//System.out.println("ConnectionHandler przesuwa gracza: " + who + " na pozycje: " + x + ", " + y);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
