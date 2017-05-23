@@ -2,7 +2,6 @@ package bomberman.entity;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import bomberman.Handler;
 import bomberman.entity.creatures.Player;
@@ -14,34 +13,33 @@ public class EntityManager {
 	private ArrayList<Player> players;
 	private Player me = null;
 	private ArrayList<Entity> entities;
-	
+
 	public static boolean canIAlready = false;
-	
+
 	public EntityManager(Handler handler) {
 		this.handler = handler;
 
 		players = new ArrayList<Player>();
-		for (int i=0; i<4; i++) {
+		for (int i = 0; i < 4; i++) {
 			players.add(null);
 		}
-		
-		//int[] myPos = handler.getGame().getConnectionHandler().getPositions();
 
-		//players.set(0, new Player(handler, myPos[0], myPos[1]));
-		
-		
+		// int[] myPos =
+		// handler.getGame().getConnectionHandler().getPositions();
+
+		// players.set(0, new Player(handler, myPos[0], myPos[1]));
+
 		int[] positions = handler.getGame().getConnectionHandler().getPositions();
 		int[] pl_num = handler.getGame().getConnectionHandler().getPl_num();
 		int gracze = handler.getGame().getConnectionHandler().getGracze();
-		
-		
-		for (int i=0; i<gracze; i++) {
-			addPlayer(positions[2*pl_num[i]], positions[2*pl_num[i]+1], i);
+
+		for (int i = 0; i < gracze; i++) {
+			addPlayer(positions[2 * pl_num[i]], positions[2 * pl_num[i] + 1], i);
 		}
 
 		entities = new ArrayList<Entity>(gracze);
 		canIAlready = true;
-		
+
 	}
 
 	public void tick() {
@@ -62,7 +60,7 @@ public class EntityManager {
 			if (x != null) {
 				if (x.isAlive() == true) {
 					x.render(g);
-				} 
+				}
 			}
 	}
 
@@ -80,13 +78,14 @@ public class EntityManager {
 						handler.gameOver(false);
 					}
 					x.setAlive(false);
-					//x = null;
-				} 
+					// x = null;
+				}
 			}
 		}
-		
-		if (b.isThisMine()) me.addOne();
-		
+
+		if (b.isThisMine())
+			me.addOne();
+
 		int zywi = 0;
 		Player left = null;
 		for (Player x : players) {
@@ -95,14 +94,14 @@ public class EntityManager {
 				left = x;
 			}
 		}
-		
-		if (zywi==1 && left == me) {
+
+		if (zywi == 1 && left == me) {
 			handler.gameOver(true);
 		}
 	}
 
 	// GETTERS AND SETTERS
-	
+
 	public int getMyNum() {
 		return me.player_num;
 	}
@@ -126,18 +125,17 @@ public class EntityManager {
 	public void setEntities(ArrayList<Entity> entities) {
 		this.entities = entities;
 	}
-	
+
 	public void addPlayer(int x, int y, int nr) {
 		int[] pl_num = handler.getGame().getConnectionHandler().getPl_num();
 		if (nr == 0) {
 			me = new Player(handler, x, y, true);
 			players.set(pl_num[nr], me);
-		}
-		else  {
+		} else {
 			Player other = new Player(handler, x, y, false);
 			players.set(pl_num[nr], other);
 		}
-		
+
 	}
 
 	public ArrayList<Player> getPlayers() {

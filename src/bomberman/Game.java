@@ -1,22 +1,18 @@
 package bomberman;
 
 import java.awt.Graphics;
-import java.awt.event.WindowEvent;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import bomberman.display.Display;
 import bomberman.gfx.Assets;
 import bomberman.input.KeyManager;
 import bomberman.input.MouseManager;
 import bomberman.state.GameState;
-import bomberman.state.MenuState;
 import bomberman.state.State;
 
 public class Game implements Runnable {
@@ -55,9 +51,9 @@ public class Game implements Runnable {
 		this.connectionHandler = ch;
 		this.handler = new Handler(this);
 		this.connectionHandler.addHandler(this.handler);
-		
-		//this.connectionHandler.startUDPClient();
-		
+
+		// this.connectionHandler.startUDPClient();
+
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
 	}
@@ -87,9 +83,8 @@ public class Game implements Runnable {
 		State.setState(gameState);
 		// State.setState(menuState);
 
-		
-		//connectionHandler.startUDPClient();
-		
+		// connectionHandler.startUDPClient();
+
 	}
 
 	private void tick() {
@@ -141,6 +136,7 @@ public class Game implements Runnable {
 		long now;
 		long lastTime = System.nanoTime();
 		long timer = 0;
+		@SuppressWarnings("unused")
 		int ticks = 0;
 
 		while (running) {
@@ -219,13 +215,32 @@ public class Game implements Runnable {
 		// display.getFrame().dispose();
 		// display.getFrame().setVisible(false);
 		JFrame koniec;
-		if (!win)
-			koniec = new JFrame("KONIEC GRY - przegrales");
-		else
-			koniec = new JFrame("KONIEC GRY - wygrales");
-		koniec.setLocation(150, 150);
-		koniec.setSize(350, 350);
+		JLabel l;
+		if (!win) {
+			koniec = new JFrame("You Lost");
+			l = new JLabel(new ImageIcon("res/textures/LoserBomb.png"));
+			l.setLocation(new Point(0, 0));
+		} else {
+			koniec = new JFrame("You Win");
+			l = new JLabel(new ImageIcon("res/textures/WinnerBomb.png"));
+			l.setLocation(new Point(0, 0));
+		}
+
+		koniec.add(l);
+		int screenWidth = (int) getConnectionHandler().getScreenWidth();
+		int screenHeight = (int) getConnectionHandler().getScreenHeight();
+		koniec.setLocation(screenWidth / 2 - 150, screenHeight / 2 - 150);
+		koniec.setSize(310, 338);
 		koniec.setAlwaysOnTop(true);
 		koniec.setVisible(true);
+		display.getFrame().setVisible(false);
+		
+		koniec.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		            System.exit(0);
+		    }
+		});
+			
 	}
 }
