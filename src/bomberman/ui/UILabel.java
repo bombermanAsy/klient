@@ -1,10 +1,7 @@
 package bomberman.ui;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-
-import bomberman.input.MouseManager;
 
 public class UILabel extends UIObject {
 	

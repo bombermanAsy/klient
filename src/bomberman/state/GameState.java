@@ -1,10 +1,8 @@
 package bomberman.state;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import bomberman.Handler;
-import bomberman.entity.items.Bomb;
 import bomberman.worlds.World;
 
 public class GameState extends State {

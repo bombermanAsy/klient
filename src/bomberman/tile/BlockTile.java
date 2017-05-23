@@ -1,7 +1,5 @@
 package bomberman.tile;
 
-import java.awt.image.BufferedImage;
-
 import bomberman.gfx.Assets;
 
 public class BlockTile extends Tile {

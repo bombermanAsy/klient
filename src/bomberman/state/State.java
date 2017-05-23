@@ -2,7 +2,6 @@ package bomberman.state;
 
 import java.awt.Graphics;
 
-import bomberman.Game;
 import bomberman.Handler;
 
 public abstract class State {

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import bomberman.Handler;
 import bomberman.gfx.Animation;
 import bomberman.gfx.Assets;
-import bomberman.entity.creatures.*;
 
 public class Bomb extends Item {
 

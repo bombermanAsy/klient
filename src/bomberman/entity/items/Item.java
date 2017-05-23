@@ -2,7 +2,6 @@ package bomberman.entity.items;
 
 import bomberman.Handler;
 import bomberman.entity.Entity;
-import bomberman.tile.Tile;
 
 public abstract class Item extends Entity {
 
